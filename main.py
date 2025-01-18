@@ -1,7 +1,8 @@
+import os
+
+import gradio as gr
 import torch
 from TTS.api import TTS
-import os
-import gradio as gr
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -17,7 +18,8 @@ def generate_audio(text="Hello, World!"):
     return AUDIO_FILENAME
 
 if __name__ == "__main__":
-    os.mkdir(OUTPUTS_DIR)
+    if not(os.path.exists(OUTPUTS_DIR)):
+        os.mkdir(OUTPUTS_DIR)
     demo = gr.Interface(
         fn=generate_audio,
         inputs=[gr.Text(label="Text"),],
